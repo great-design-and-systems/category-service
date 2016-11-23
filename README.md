@@ -2,13 +2,13 @@
 
 ## createCategory
 ### request json format
-{ 
-    "name" : "Category Name", 
-    "fields" : [ 
-        { "name" : "fieldName1", "fieldType" : "Number", "isFilter" : true }, 
-        { "name" : "fieldName2", "fieldType" : "Text", "isFilter" : false }, 
-        { "name" : "fieldName3", "fieldType" : "Date", "isFilter" : true } 
-    ] 
+{  
+    "name" : "Category Name",  
+    "fields" : [  
+        { "name" : "fieldName1", "fieldType" : "Number", "isFilter" : true },  
+        { "name" : "fieldName2", "fieldType" : "Text", "isFilter" : false },  
+        { "name" : "fieldName3", "fieldType" : "Date", "isFilter" : true }  
+    ]  
 } 
 
 ## getCategoryById
@@ -19,7 +19,7 @@
       "name": "Category Name 2", 
       "__v": 0, 
       "createdOn": "2016-11-22T16:20:54.808Z" 
-    }, 
+    },  
     "fields": [ 
       { 
         "_id": "583470674afee0063eb60c70", 
