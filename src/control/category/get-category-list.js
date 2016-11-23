@@ -1,7 +1,7 @@
-import FieldModel from '../../entity/category';
+import CategoryModel from '../../entity/category';
 export default class GetCategoryList {
   constructor(paginate, callback) {
-    FieldModel.paginate({}, paginate, (err, result) => {
+    CategoryModel.paginate({}, paginate, (err, result) => {
       if (err) {
         global.gdsLogger.logError(err);
         callback({

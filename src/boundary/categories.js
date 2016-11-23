@@ -3,9 +3,10 @@ import CreateField from '../control/field/create-field';
 import GetCategoryList from '../control/category/get-category-list';
 import GetCategoryById from '../control/category/get-category-by-id';
 import GetFieldsByCategoryId from '../control/field/get-fields-by-category-id';
-// import UpdateItem from '../control/item/update-item';
-// import RemoveItemById from '../control/item/remove-item-by-id';
-// import GetItemByName from '../control/item/get-item-by-name';
+import UpdateCategory from '../control/category/update-category';
+import RemoveCategoryById from '../control/category/remove-category-by-id';
+import RemoveFieldsByCategoryId from '../control/field/remove-fields-by-category-id';
+import GetCategoryByName from '../control/category/get-category-by-name';
 export default class CategoryService {
 
   createCategory(data, callback) {
@@ -43,13 +44,31 @@ export default class CategoryService {
       }
     });
   }
-  // updateItem(itemId, item, callback) {
-  //   new UpdateItem(itemId, item, callback);
-  // }
-  // removeItemById(itemId, callback) {
-  //   new RemoveItemById(itemId, callback);
-  // }
-  // getItemByName(itemName, callback) {
-  //   new GetItemByName(itemName, callback);
-  // }
+  updateCategory(categoryId, category, callback) {
+    new UpdateCategory(categoryId, category, callback);
+  }
+  removeCategoryById(categoryId, callback) {
+    new RemoveCategoryById(categoryId, (err) => {
+      if (err) {
+        callback(err);
+      } else {
+        new RemoveFieldsByCategoryId(categoryId, callback);
+      }
+    });
+  }
+  getCategoryByName(categoryName, callback) {
+    new GetCategoryByName(categoryName, (err, category) => {
+      if (err || !category) {
+        callback(err);
+      } else {
+        new GetFieldsByCategoryId(category._id, (err, fields) => {
+          if (err) {
+            callback(err);
+          } else {
+            callback(null, {category, fields});
+          }
+        });
+      }
+    });
+  }
 }

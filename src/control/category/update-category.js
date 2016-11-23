@@ -1,14 +1,11 @@
 import CategoryModel from '../../entity/category';
-
-export default class GetCategoryById {
-  constructor(categoryId, callback) {
-    CategoryModel.findOne({
-      _id: categoryId
-    }, (err, result) => {
+export default class UpdateCategory {
+  constructor(categoryId, category, callback) {
+    CategoryModel.findByIdAndUpdate(categoryId, category, (err, result) => {
       if (err) {
         global.gdsLogger.logError(err);
         callback({
-          message: 'Failed getting category'
+          message: 'Failed updating category'
         });
       } else {
         callback(undefined, result);

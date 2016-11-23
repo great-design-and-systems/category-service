@@ -1,14 +1,14 @@
-import ItemModel from '../../entity/item';
+import FieldModel from '../../entity/field';
 
-export default class RemoveItemById {
+export default class RemoveFieldById {
     constructor(id, callback) {
-        ItemModel.remove({
+        FieldModel.remove({
             _id: id
         }, (err) => {
             if (err) {
                 global.gdsLogger.error(err);
                 callback({
-                    message: 'Failed saving item'
+                    message: 'Failed deleting field'
                 });
             } else {
                 callback();

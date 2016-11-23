@@ -14,6 +14,6 @@ const CategorySchema = mongoose.Schema({
 });
 CategorySchema.plugin(mongoosePaginate);
 
-const FieldModel = mongoose.model('category', CategorySchema);
+const CategoryModel = mongoose.model('category', CategorySchema);
 
-export default FieldModel;
+export default CategoryModel;

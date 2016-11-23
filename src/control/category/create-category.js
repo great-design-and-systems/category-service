@@ -1,7 +1,7 @@
-import FieldModel from '../../entity/category';
+import CategoryModel from '../../entity/category';
 export default class CreateCategory {
     constructor(categoryName, callback) {
-        FieldModel.create({
+        CategoryModel.create({
             name: categoryName
         }, (err, result) => {
             if (err) {

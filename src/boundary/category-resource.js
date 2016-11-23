@@ -1,4 +1,5 @@
 import CategoryService from './categories';
+import FieldService from './fields';
 import {
   GDSDomainDTO,
   GDSDomainPaginateHelper
@@ -9,6 +10,7 @@ const API = process.env.API_NAME || '/api/category/';
 export default class CategoryResource {
   constructor(app) {
     const categoryService = new CategoryService();
+    const fieldService = new FieldService();
 
     app.get('/', (req, res) => {
       const domain = new GDSDomainDTO();
@@ -19,6 +21,7 @@ export default class CategoryResource {
       domain.addDelete('removeCategory', 'http://' + req.headers.host + API + 'remove-category/:categoryId');
       domain.addGet('getCategoryByName', 'http://' + req.headers.host + API + 'get-category-by-name/:categoryName');
       domain.addPost('createField', 'http://' + req.headers.host + API + 'create-field');
+      domain.addGet('getFieldById', 'http://' + req.headers.host + API + 'get-field-by-id/:fieldId');
       domain.addPut('updateField', 'http://' + req.headers.host + API + 'update-field/:fieldId');
       domain.addDelete('removeField', 'http://' + req.headers.host + API + 'remove-field/:fieldId');
       domain.addGet('getFieldsByCategoryId', 'http://' + req.headers.host + API + 'get-fields-by-category-id/:categoryId');
@@ -71,43 +74,117 @@ export default class CategoryResource {
       });
     });
 
-    app.put(API + 'update-item/:itemId', (req, res) => {
-      categoryService.updateItem(req.params.itemId, req.body, (err, result) => {
+    app.put(API + 'update-category/:categoryId', (req, res) => {
+      categoryService.updateCategory(req.params.categoryId, req.body, (err, result) => {
         if (err) {
           res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
             err.message
           ))
         } else {
-          const domain = new GDSDomainDTO('UPDATE-ITEM', 'Item has been updated');
-          domain.addGet('getItemsById', 'http://' + req.headers.host + API + 'get-item-by-id/' + result._id);
-          domain.addDelete('removeItem', 'http://' + req.headers.host + API + 'remove-item/' + result._id);
+          const domain = new GDSDomainDTO('UPDATE-CATEGORY', 'Category has been updated');
+          domain.addGet('getCategoryById', 'http://' + req.headers.host + API + 'get-category-by-id/' + result._id);
+          domain.addDelete('removeCategory', 'http://' + req.headers.host + API + 'remove-category/' + result._id);
           res.status(200).send(domain);
         }
       });
     });
 
-    app.delete(API + 'remove-item/:itemId', (req, res) => {
-      categoryService.removeItemById(req.params.itemId, (err) => {
+    app.delete(API + 'remove-category/:categoryId', (req, res) => {
+      categoryService.removeCategoryById(req.params.categoryId, (err) => {
         if (err) {
           res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
             err.message
           ))
         } else {
-          res.status(200).send(new GDSDomainDTO('REMOVE-ITEM', 'Item has been removed'));
+          res.status(200).send(new GDSDomainDTO('REMOVE-CATEGORY', 'Category has been removed'));
         }
       });
     });
 
-    app.get(API + 'get-item-by-name/:itemName', (req, res) => {
-      categoryService.getItemByName(req.params.itemName, (err, result) => {
+    app.get(API + 'get-category-by-name/:categoryName', (req, res) => {
+      categoryService.getCategoryByName(req.params.categoryName, (err, result) => {
         if (err) {
           res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
             err.message
           ))
         } else {
-          const domain = new GDSDomainDTO('GET-ITEM-BY-NAME', result);
-          domain.addPut('updateItem', 'http://' + req.headers.host + API + 'update-item/' + result._id);
-          domain.addDelete('removeItem', 'http://' + req.headers.host + API + 'remove-item/' + result._id);
+          const domain = new GDSDomainDTO('GET-CATEGORY-BY-NAME', result);
+          domain.addPut('updateCategory', 'http://' + req.headers.host + API + 'update-category/' + result.category._id);
+          domain.addDelete('removeCategory', 'http://' + req.headers.host + API + 'remove-category/' + result.category._id);
+          res.status(200).send(domain);
+        }
+      });
+    });
+
+    app.post(API + 'create-field', (req, res) => {
+      fieldService.createField(req.body, (err, result) => {
+        if (err) {
+          res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
+            err.message
+          ))
+        } else {
+          const domain = new GDSDomainDTO('CREATE-FIELD', 'FIELD has been created');
+          domain.addGet('getFieldById', 'http://' + req.headers.host + API + 'get-field-by-id/' + result._id);
+          domain.addPut('updateField', 'http://' + req.headers.host + API + 'update-field/' + result._id);
+          domain.addDelete('removeField', 'http://' + req.headers.host + API + 'remove-field/' + result._id);
+          res.status(200).send(domain);
+        }
+      });
+    });
+
+    app.get(API + 'get-field-by-id/:fieldId', (req, res) => {
+      fieldService.getFieldById(req.params.fieldId, (err, result) => {
+        if (err) {
+          res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
+            err.message
+          ))
+        } else {
+          const domain = new GDSDomainDTO('GET-FIELD-BY-ID', result);
+          domain.addPut('updateField', 'http://' + req.headers.host + API + 'update-field/' + result._id);
+          domain.addDelete('removeField', 'http://' + req.headers.host + API + 'remove-field/' + result._id);
+          res.status(200).send(domain);
+        }
+      });
+    });
+
+    app.put(API + 'update-field/:fieldId', (req, res) => {
+      fieldService.updateField(req.params.fieldId, req.body, (err, result) => {
+        if (err) {
+          res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
+            err.message
+          ))
+        } else {
+          const domain = new GDSDomainDTO('UPDATE-FIELD', 'Field has been updated');
+          domain.addGet('getFieldById', 'http://' + req.headers.host + API + 'get-field-by-id/' + result._id);
+          domain.addDelete('removeField', 'http://' + req.headers.host + API + 'remove-field/' + result._id);
+          res.status(200).send(domain);
+        }
+      });
+    });
+
+    app.delete(API + 'remove-field/:fieldId', (req, res) => {
+      fieldService.removeFieldById(req.params.fieldId, (err) => {
+        if (err) {
+          res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
+            err.message
+          ))
+        } else {
+          res.status(200).send(new GDSDomainDTO('REMOVE-FIELD', 'Field has been removed'));
+        }
+      });
+    });
+
+    app.get(API + 'get-fields-by-category-id/:categoryId', (req, res) => {
+      fieldService.getFieldsByCategoryId(req.params.categoryId, (err, result) => {
+        if (err) {
+          res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
+            err.message
+          ))
+        } else {
+          const domain = new GDSDomainDTO('GET-FIELD-BY-CATEGORY-ID', result);
+          domain.addGet('getCategoryById', 'http://' + req.headers.host + API + 'get-category-by-id/' + result._id);
+          domain.addPut('updateCategory', 'http://' + req.headers.host + API + 'update-category/' + result._id);
+          domain.addDelete('removeCategory', 'http://' + req.headers.host + API + 'remove-category/' + result._id);
           res.status(200).send(domain);
         }
       });
