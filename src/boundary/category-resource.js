@@ -1,5 +1,6 @@
 import CategoryService from './categories';
 import FieldService from './fields';
+import DynamicService from './dynamic';
 import {
   GDSDomainDTO,
   GDSDomainPaginateHelper
@@ -11,6 +12,7 @@ export default class CategoryResource {
   constructor(app) {
     const categoryService = new CategoryService();
     const fieldService = new FieldService();
+    const dynamicService = new DynamicService();
 
     app.get('/', (req, res) => {
       const domain = new GDSDomainDTO();
@@ -25,6 +27,7 @@ export default class CategoryResource {
       domain.addPut('updateField', 'http://' + req.headers.host + API + 'update-field/:fieldId');
       domain.addDelete('removeField', 'http://' + req.headers.host + API + 'remove-field/:fieldId');
       domain.addGet('getFieldsByCategoryId', 'http://' + req.headers.host + API + 'get-fields-by-category-id/:categoryId');
+      domain.addPost('createCategoryTable', 'http://' + req.headers.host + API + 'create-category-table');
       res.status(200).send(domain);
     });
 
@@ -186,6 +189,19 @@ export default class CategoryResource {
           domain.addPut('updateCategory', 'http://' + req.headers.host + API + 'update-category/' + result._id);
           domain.addDelete('removeCategory', 'http://' + req.headers.host + API + 'remove-category/' + result._id);
           res.status(200).send(domain);
+        }
+      });
+    });
+
+    app.post(API + 'create-category-table', (req, res) => {
+      dynamicService.createCategoryTable(req.body, (err, result) => {
+        if (err) {
+          res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
+            err.message
+          ))
+        } else {
+          const createDomain = new GDSDomainDTO('CREATE-CATEGORY-TABLE', 'Category table has been created');
+          res.status(200).send(createDomain);
         }
       });
     });

@@ -38,7 +38,7 @@ export default class CategoryService {
           if (err) {
             callback(err);
           } else {
-            callback(null, {category, fields});
+            callback(null, { category, fields });
           }
         });
       }
@@ -56,6 +56,7 @@ export default class CategoryService {
       }
     });
   }
+
   getCategoryByName(categoryName, callback) {
     new GetCategoryByName(categoryName, (err, category) => {
       if (err || !category) {
@@ -65,7 +66,7 @@ export default class CategoryService {
           if (err) {
             callback(err);
           } else {
-            callback(null, {category, fields});
+            callback(null, { category, fields });
           }
         });
       }
