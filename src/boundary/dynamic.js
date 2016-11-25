@@ -5,9 +5,9 @@ export default class DynamicService {
     }
 
     createCategoryTable(data, callback) {
-        const Model = this.dynamicCategoryTable.createModelForName(data.name);
+        const Model = this.dynamicCategoryTable.getModel(data.name);
         console.log(data.content);
-        const model = new Model(data.content);
+        const model = Model(data.content);
         model.save((err, result, numAffected) => {
             if (err) {
                 callback(err);
