@@ -27,7 +27,10 @@ export default class CategoryResource {
       domain.addPut('updateField', 'http://' + req.headers.host + API + 'update-field/:fieldId');
       domain.addDelete('removeField', 'http://' + req.headers.host + API + 'remove-field/:fieldId');
       domain.addGet('getFieldsByCategoryId', 'http://' + req.headers.host + API + 'get-fields-by-category-id/:categoryId');
-      domain.addPost('createCategoryTable', 'http://' + req.headers.host + API + 'create-category-table');
+      domain.addPost('createItemCategory', 'http://' + req.headers.host + API + 'create-item-category');
+      domain.addPost('getItemCategory', 'http://' + req.headers.host + API + 'get-item-category');
+      domain.addPost('updateItemCategory', 'http://' + req.headers.host + API + 'update-item-category');
+      domain.addPost('deleteItemCategory', 'http://' + req.headers.host + API + 'delete-item-category');
       res.status(200).send(domain);
     });
 
@@ -193,18 +196,56 @@ export default class CategoryResource {
       });
     });
 
-    app.post(API + 'create-category-table', (req, res) => {
-      dynamicService.createCategoryTable(req.body, (err, result) => {
+    app.post(API + 'create-item-category', (req, res) => {
+      dynamicService.createItemCategory(req.body, (err, result) => {
         if (err) {
           res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
             err.message
           ))
         } else {
-          const createDomain = new GDSDomainDTO('CREATE-CATEGORY-TABLE', 'Category table has been created');
+          const createDomain = new GDSDomainDTO('CREATE-ITEM-CATEGORY', 'Item category has been created');
           res.status(200).send(createDomain);
         }
       });
     });
 
+    app.post(API + 'get-item-category', (req, res) => {
+      dynamicService.getItemCategory(req.body, (err, result) => {
+        if (err) {
+          res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
+            err.message
+          ))
+        } else {
+          const domain = new GDSDomainDTO('GET-ITEM-CATEGORY', result);
+          res.status(200).send(domain);
+        }
+      });
+    });
+
+    app.post(API + 'update-item-category', (req, res) => {
+      dynamicService.updateItemCategory(req.body, (err, result) => {
+        if (err) {
+          res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
+            err.message
+          ))
+        } else {
+          const domain = new GDSDomainDTO('UPDATE-ITEM-CATEGORY', 'Item category has been updated');
+          res.status(200).send(domain);
+        }
+      });
+    });
+
+    app.post(API + 'remove-item-category', (req, res) => {
+      dynamicService.removeItemCategory(req.body, (err) => {
+        if (err) {
+          res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
+            err.message
+          ))
+        } else {
+          const domain = new GDSDomainDTO('DELETE-ITEM-CATEGORY', 'Item category has been deleted');
+          res.status(200).send(domain);
+        }
+      });
+    });
   }
 }

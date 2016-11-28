@@ -4,17 +4,19 @@ export default class DynamicService {
         this.dynamicCategoryTable = new DynamicCategoryTable();
     }
 
-    createCategoryTable(data, callback) {
-        const Model = this.dynamicCategoryTable.getModel(data.name);
-        console.log(data.content);
-        const model = Model(data.content);
-        model.save((err, result, numAffected) => {
-            if (err) {
-                callback(err);
-            } else {
-                console.log(result);
-                callback();
-            }
-        });
+    createItemCategory(data, callback) {
+        this.dynamicCategoryTable.createCategoryData(data.category, data.content, callback);
+    }
+
+    getItemCategory(data, callback) {
+        this.dynamicCategoryTable.getCategoryData(data.category, data.query, callback);
+    }
+
+    updateItemCategory(data, callback) {
+        this.dynamicCategoryTable.updateCategoryData(data.category, data.content, callback);
+    }
+
+    removeItemCategory(data, callback) {
+        this.dynamicCategoryTable.deleteCategoryData(data.category, data.query, callback);
     }
 }
