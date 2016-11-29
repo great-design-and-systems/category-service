@@ -1,18 +1,20 @@
 # category-service
 
-## createCategory
-### request json format
+### createCategory
+##### request json format
+```json
 {  
     "name" : "Category Name",  
     "fields" : [  
-        { "name" : "fieldName1", "fieldType" : "Number", "isFilter" : true },  
-        { "name" : "fieldName2", "fieldType" : "Text", "isFilter" : false },  
-        { "name" : "fieldName3", "fieldType" : "Date", "isFilter" : true }  
+        { "name" : "fieldName1", "fieldType" : "Number", "isFilter" : true },
+        { "name" : "fieldName2", "fieldType" : "Text", "isFilter" : false }, 
+        { "name" : "fieldName3", "fieldType" : "Date", "isFilter" : true }
     ] 
 } 
-
-## getCategoryById
-### response json format
+```
+### getCategoryById
+##### response json format
+```json
 { 
     "category": { 
       "_id": "583470664afee0063eb60c6f", 
@@ -50,3 +52,48 @@
       } 
     ] 
   } 
+```
+### createItemCategory
+##### request json format
+```json
+{  
+    "category" : "dvd",  
+    "content" : {  
+        "itemId" : 123456,  
+        "serial" : "akjdfalsfj",  
+        "title" : "Video title",  
+        "director" : "Director Name"  
+    }  
+}  
+```
+### getItemCategory
+##### request json format
+```json
+{  
+    "category" : "dvd",  
+    "query" : {  
+        "itemId" : 123456
+    }  
+}  
+```
+### updateItemCategory
+##### request json format
+```json
+{  
+    "category" : "dvd",  
+    "content" : {  
+        "query" : { "itemId" : 123456 },
+        "update" : { "director" : "Analyn Flores" }
+    }  
+}  
+```
+### removeItemCategory
+##### request json format
+```json
+{  
+    "category" : "dvd",
+    "query" : {
+        "itemId":123456
+    }
+}  
+```

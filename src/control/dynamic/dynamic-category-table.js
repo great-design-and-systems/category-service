@@ -7,7 +7,13 @@ export default class DynamicCategoryTable {
     getModel(name) {
         if (!(name in this.establishedModels)) {
             const Any = new mongoose.Schema(
-                { any: mongoose.Schema.Types.Mixed }, { strict: false }
+                {
+                    any: mongoose.Schema.Types.Mixed, 
+                    createdOn: {
+                        type: Date,
+                        default: Date.now
+                    }
+                }, { strict: false }
             );
             this.establishedModels[name] = mongoose.model(name, Any);
         }

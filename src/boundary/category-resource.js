@@ -30,7 +30,7 @@ export default class CategoryResource {
       domain.addPost('createItemCategory', 'http://' + req.headers.host + API + 'create-item-category');
       domain.addPost('getItemCategory', 'http://' + req.headers.host + API + 'get-item-category');
       domain.addPost('updateItemCategory', 'http://' + req.headers.host + API + 'update-item-category');
-      domain.addPost('deleteItemCategory', 'http://' + req.headers.host + API + 'delete-item-category');
+      domain.addPost('removeItemCategory', 'http://' + req.headers.host + API + 'remove-item-category');
       res.status(200).send(domain);
     });
 
