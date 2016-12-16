@@ -10,7 +10,7 @@ import GetCategoryByName from '../control/category/get-category-by-name';
 export default class CategoryService {
 
   createCategory(data, callback) {
-    new CreateCategory(data.name, (err, category) => {
+    new CreateCategory(data, (err, category) => {
       if (err) {
         callback(err);
       } else {

@@ -7,6 +7,8 @@ const CategorySchema = mongoose.Schema({
     required: [true, 'Category name is required.'],
     unique: true
   },
+  iconGlyph: String,
+  iconField: String,
   createdOn: {
     type: Date,
     default: Date.now

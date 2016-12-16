@@ -1,8 +1,10 @@
 import CategoryModel from '../../entity/category';
 export default class CreateCategory {
-    constructor(categoryName, callback) {
+    constructor(data, callback) {
         CategoryModel.create({
-            name: categoryName
+            name: data.categoryName,
+            iconGlyph: data.iconGlyph,
+            iconField: data.iconField
         }, (err, result) => {
             if (err) {
                 global.gdsLogger.logError(err);
