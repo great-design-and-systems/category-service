@@ -10,20 +10,21 @@ import GetCategoryByName from '../control/category/get-category-by-name';
 export default class CategoryService {
 
   createCategory(data, callback) {
-    new CreateCategory(data, (err, category) => {
-      if (err) {
-        callback(err);
-      } else {
-        if (data.fields) {
+    if (data.fields) {
+      new CreateCategory(data, (err, category) => {
+        if (err) {
+          callback(err);
+        } else {
           for (var field of data.fields) {
             new CreateField(category._id, field, callback);
           }
-        } else {
-          // fields is not mandatory
-          callback(null, category);
         }
-      }
-    });
+      });
+    } else {
+      callback({
+        message: 'At least one field is required when creating category.'
+      });
+    }
   }
 
   getCategoryList(paginate, callback) {
