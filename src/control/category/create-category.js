@@ -2,7 +2,7 @@ import CategoryModel from '../../entity/category';
 export default class CreateCategory {
     constructor(data, callback) {
         CategoryModel.create({
-            name: data.categoryName,
+            name: data.name,
             iconGlyph: data.iconGlyph,
             iconField: data.iconField
         }, (err, result) => {
