@@ -1,12 +1,14 @@
 import CreateCategory from '../control/category/create-category';
 import CreateField from '../control/field/create-field';
-import GetCategoryList from '../control/category/get-category-list';
 import GetCategoryById from '../control/category/get-category-by-id';
+import GetCategoryByName from '../control/category/get-category-by-name';
+import GetCategoryList from '../control/category/get-category-list';
 import GetFieldsByCategoryId from '../control/field/get-fields-by-category-id';
-import UpdateCategory from '../control/category/update-category';
 import RemoveCategoryById from '../control/category/remove-category-by-id';
 import RemoveFieldsByCategoryId from '../control/field/remove-fields-by-category-id';
-import GetCategoryByName from '../control/category/get-category-by-name';
+import UpdateCategory from '../control/category/update-category';
+import batch from 'batchflow';
+
 export default class CategoryService {
 
   createCategory(data, callback) {
@@ -15,15 +17,22 @@ export default class CategoryService {
         if (err) {
           callback(err);
         } else {
-          for (var field of data.fields) {
-            new CreateField(category._id, field, callback);
-          }
+          batch(data.fields).parallel()
+            .each((i, field, done) => {
+              new CreateField(category._id, field, (err) => {
+                if (err) {
+                  global.gdsLogger.logError(err);
+                }
+                done();
+              });
+            })
+            .end(() => {
+              callback(undefined, category);
+            });
         }
       });
     } else {
-      callback({
-        message: 'At least one field is required when creating category.'
-      });
+      callback(new Error('At least one field is required when creating category.'));
     }
   }
 

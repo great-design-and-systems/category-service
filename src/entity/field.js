@@ -8,7 +8,7 @@ const FieldSchema = mongoose.Schema({
   },
   fieldType: {
     type: String,
-    enum: ['Number', 'Text', 'Date'],
+    enum: ['number', 'text', 'date', 'boolean'],
     required: [true, 'Field type is required']
   },
   categoryId: String,
