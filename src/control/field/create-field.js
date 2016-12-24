@@ -5,7 +5,8 @@ export default class CreateField {
             name: field.name,
             fieldType: field.fieldType,
             categoryId: categoryId,
-            isFilter: field.isFilter
+            isFilter: field.isFilter,
+            isRequired: field.isRequired
         }, (err, result) => {
             if (err) {
                 global.gdsLogger.logError(err);
