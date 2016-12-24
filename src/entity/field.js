@@ -16,6 +16,10 @@ const FieldSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
+  isRequired: {
+    type: Boolean,
+    default: false
+  },
   createdOn: {
     type: Date,
     default: Date.now
