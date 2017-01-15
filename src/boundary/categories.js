@@ -85,7 +85,15 @@ export default class CategoryService {
           if (err) {
             callback(err);
           } else {
-            callback(null, { category, fields });
+            const result = {};
+            result._id = category._id;
+            result.name = category.name;
+            result.rules = category.rules;
+            result.createdOn = category.createOn;
+            result.approver = category.approver;
+            result.icon = category.icon;
+            result.fields = fields;
+            callback(null, result);
           }
         });
       }
