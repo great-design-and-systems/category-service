@@ -9,6 +9,9 @@ const CategorySchema = mongoose.Schema({
   },
   iconGlyph: String,
   iconField: String,
+  icon: String,
+  rules: Array,
+  approver: String,
   createdOn: {
     type: Date,
     default: Date.now
