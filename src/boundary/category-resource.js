@@ -1,10 +1,11 @@
-import CategoryService from './categories';
-import FieldService from './fields';
-import DynamicService from './dynamic';
 import {
   GDSDomainDTO,
-  GDSDomainPaginateHelper
+  GDSDomainPaginateHelper,
 } from 'gds-config';
+
+import CategoryService from './categories';
+import DynamicService from './dynamic';
+import FieldService from './fields';
 
 const API = process.env.API_NAME || '/api/category/';
 
@@ -73,8 +74,8 @@ export default class CategoryResource {
           ))
         } else {
           const domain = new GDSDomainDTO('GET-CATEGORY-BY-ID', result);
-          domain.addPut('updateCategory', 'http://' + req.headers.host + API + 'update-category/' + result.category._id);
-          domain.addDelete('removeCategory', 'http://' + req.headers.host + API + 'remove-category/' + result.category._id);
+          domain.addPut('updateCategory', 'http://' + req.headers.host + API + 'update-category/' + result._id);
+          domain.addDelete('removeCategory', 'http://' + req.headers.host + API + 'remove-category/' + result._id);
           res.status(200).send(domain);
         }
       });
