@@ -55,7 +55,7 @@ export default class CategoryService {
             result.rules = category.rules;
             result.createdOn = category.createOn;
             result.approver = category.approver;
-            result.icon = category.icon;
+            result.iconGlyph = category.iconGlyph;
             result.fields = fields;
             callback(null, result);
           }
@@ -91,7 +91,7 @@ export default class CategoryService {
             result.rules = category.rules;
             result.createdOn = category.createOn;
             result.approver = category.approver;
-            result.icon = category.icon;
+            result.iconGlyph = category.iconGlyph;
             result.fields = fields;
             callback(null, result);
           }
