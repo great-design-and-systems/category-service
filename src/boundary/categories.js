@@ -11,7 +11,9 @@ import batch from 'batchflow';
 import lodash from 'lodash';
 
 export default class CategoryService {
-
+  constructor(dynamicService) {
+    this.dynamicService = dynamicService;
+  }
   createCategory(data, callback) {
     if (data.fields) {
       new CreateCategory(data, (err, category) => {
@@ -36,7 +38,6 @@ export default class CategoryService {
       callback(new Error('At least one field is required when creating category.'));
     }
   }
-
   getCategoryList(paginate, callback) {
     new GetCategoryList(paginate, callback);
   }
@@ -75,7 +76,6 @@ export default class CategoryService {
       }
     });
   }
-
   getCategoryByName(categoryName, callback) {
     new GetCategoryByName(categoryName, (err, category) => {
       if (err || !category) {
@@ -94,6 +94,25 @@ export default class CategoryService {
             result.iconGlyph = category.iconGlyph;
             result.fields = fields;
             callback(null, result);
+          }
+        });
+      }
+    });
+  }
+  getCategoryItemData(categoryId, itemId, callback) {
+    new GetCategoryById(categoryId, (e, category) => {
+      if (e) {
+        callback(e);
+      } else {
+        this.dynamicService.getItemCategory({
+          category: category.name, query: {
+            itemId: itemId
+          }
+        }, (err, itemData) => {
+          if (err) {
+            callback(err);
+          } else {
+            callback(undefined, itemData);
           }
         });
       }

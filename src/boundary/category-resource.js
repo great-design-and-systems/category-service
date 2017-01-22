@@ -11,15 +11,17 @@ const API = process.env.API_NAME || '/api/category/';
 
 export default class CategoryResource {
   constructor(app) {
-    const categoryService = new CategoryService();
     const fieldService = new FieldService();
     const dynamicService = new DynamicService();
+    const categoryService = new CategoryService(dynamicService);
+
 
     app.get('/', (req, res) => {
       const domain = new GDSDomainDTO();
       domain.addPost('createCategory', 'http://' + req.headers.host + API + 'create-category');
       domain.addGet('getCategoryList', 'http://' + req.headers.host + API + 'get-category-list');
       domain.addGet('getCategoryById', 'http://' + req.headers.host + API + 'get-category-by-id/:categoryId');
+      domain.addGet('getCategoryItemData', 'http://' + req.headers.host + API + 'get-category-item-data/:categoryId/:itemId');
       domain.addPut('updateCategory', 'http://' + req.headers.host + API + 'update-category/:categoryId');
       domain.addDelete('removeCategory', 'http://' + req.headers.host + API + 'remove-category/:categoryId');
       domain.addGet('getCategoryByName', 'http://' + req.headers.host + API + 'get-category-by-name/:categoryName');
@@ -76,6 +78,19 @@ export default class CategoryResource {
           const domain = new GDSDomainDTO('GET-CATEGORY-BY-ID', result);
           domain.addPut('updateCategory', 'http://' + req.headers.host + API + 'update-category/' + result._id);
           domain.addDelete('removeCategory', 'http://' + req.headers.host + API + 'remove-category/' + result._id);
+          res.status(200).send(domain);
+        }
+      });
+    });
+
+    app.get(API + 'get-category-item-data/:categoryId/:itemId', (req, res) => {
+      categoryService.getCategoryItemData(req.params.categoryId, req.params.itemId, (err, result) => {
+        if (err) {
+          res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
+            err.message
+          ))
+        } else {
+          const domain = new GDSDomainDTO('GET-CATEGORY-ITEM-DATA', result);
           res.status(200).send(domain);
         }
       });
