@@ -18,9 +18,9 @@
 {  
     "name" : "Category Name",  
     "fields" : [  
-        { "fieldId" : "fieldId1", "name" : "fieldName1", "fieldType" : "Number", "isFilter" : true },
-        { "fieldId" : "fieldId2", "name" : "fieldName2", "fieldType" : "Text", "isFilter" : false }, 
-        { "fieldId" : "fieldId3", "name" : "fieldName3", "fieldType" : "Date", "isFilter" : true }
+        { "_id" : "fieldId1", "name" : "fieldName1", "fieldType" : "Number", "isFilter" : true },
+        { "_id" : "fieldId2", "name" : "fieldName2", "fieldType" : "Text", "isFilter" : false }, 
+        { "_id" : "fieldId3", "name" : "fieldName3", "fieldType" : "Date", "isFilter" : true }
     ] 
 } 
 ```
