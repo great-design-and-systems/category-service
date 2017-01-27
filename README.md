@@ -12,6 +12,18 @@
     ] 
 } 
 ```
+### updateCategory
+##### request json format
+```json
+{  
+    "name" : "Category Name",  
+    "fields" : [  
+        { "fieldId" : "fieldId1", "name" : "fieldName1", "fieldType" : "Number", "isFilter" : true },
+        { "fieldId" : "fieldId2", "name" : "fieldName2", "fieldType" : "Text", "isFilter" : false }, 
+        { "fieldId" : "fieldId3", "name" : "fieldName3", "fieldType" : "Date", "isFilter" : true }
+    ] 
+} 
+```
 ### getCategoryById
 ##### response json format
 ```json

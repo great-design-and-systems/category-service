@@ -7,6 +7,7 @@ import GetFieldsByCategoryId from '../control/field/get-fields-by-category-id';
 import RemoveCategoryById from '../control/category/remove-category-by-id';
 import RemoveFieldsByCategoryId from '../control/field/remove-fields-by-category-id';
 import UpdateCategory from '../control/category/update-category';
+import UpdateField from '../control/field/update-field';
 import batch from 'batchflow';
 import lodash from 'lodash';
 
@@ -64,8 +65,25 @@ export default class CategoryService {
       }
     });
   }
-  updateCategory(categoryId, category, callback) {
-    new UpdateCategory(categoryId, category, callback);
+  updateCategory(categoryId, data, callback) {
+    new UpdateCategory(categoryId, data, (err, category) => {
+      if (err) {
+        callback(err);
+      } else {
+        batch(data.fields).parallel()
+            .each((i, field, done) => {
+              new UpdateField(field.fieldId, field, (err) => {
+                if (err) {
+                  global.gdsLogger.logError(err);
+                }
+                done();
+              });
+            })
+            .end(() => {
+              callback(undefined, category);
+            });
+      }
+    });
   }
   removeCategoryById(categoryId, callback) {
     new RemoveCategoryById(categoryId, (err) => {
