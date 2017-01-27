@@ -72,7 +72,7 @@ export default class CategoryService {
       } else {
         batch(data.fields).parallel()
             .each((i, field, done) => {
-              new UpdateField(field.fieldId, field, (err) => {
+              new UpdateField(field._id, field, (err) => {
                 if (err) {
                   global.gdsLogger.logError(err);
                 }
