@@ -66,7 +66,7 @@ export default class CategoryService {
     });
   }
   updateCategory(categoryId, data, callback) {
-    new UpdateCategory(categoryId, data, (err, category) => {
+    new UpdateCategory(categoryId, data.category, (err, category) => {
       if (err) {
         callback(err);
       } else {

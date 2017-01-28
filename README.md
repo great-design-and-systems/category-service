@@ -16,11 +16,17 @@
 ##### request json format
 ```json
 {  
-    "name" : "Category Name",  
+    "category" : { 
+        "name" : "Category Name",
+        "iconGlyph" : "value",
+        "iconField" : "value",
+        "rules" : ["needsCredentials","GridLayout","listLayout","tableLayout","needsID","needsApproval"],
+        "approver" : "value"
+    },  
     "fields" : [  
-        { "_id" : "fieldId1", "name" : "fieldName1", "fieldType" : "Number", "isFilter" : true },
-        { "_id" : "fieldId2", "name" : "fieldName2", "fieldType" : "Text", "isFilter" : false }, 
-        { "_id" : "fieldId3", "name" : "fieldName3", "fieldType" : "Date", "isFilter" : true }
+        { "_id" : "fieldId1", "name" : "fieldName1", "fieldType" : "Number", "isFilter" : true, "isRequired" : false },
+        { "_id" : "fieldId2", "name" : "fieldName2", "fieldType" : "Text", "isFilter" : false, "isRequired" : true }, 
+        { "_id" : "fieldId3", "name" : "fieldName3", "fieldType" : "Date", "isFilter" : true, "isRequired" : false }
     ] 
 } 
 ```
