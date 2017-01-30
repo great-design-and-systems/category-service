@@ -66,7 +66,9 @@ export default class CategoryService {
     });
   }
   updateCategory(categoryId, data, callback) {
-    new UpdateCategory(categoryId, data.category, (err, category) => {
+    var categoryData = lodash.clone(data);
+    lodash.unset(categoryData, 'fields');
+    new UpdateCategory(categoryId, categoryData, (err, category) => {
       if (err) {
         callback(err);
       } else {

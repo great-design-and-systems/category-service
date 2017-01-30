@@ -18,6 +18,7 @@
     "batchflow": "^0.4.0",
     "express": "^4.14.0",
     "gds-config": "latest",
+    "lodash": "^4.17.4",
     "mongoose": "^4.6.7",
     "mongoose-paginate": "^5.0.3",
     "node-schedule": "^1.2.0",
