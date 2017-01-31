@@ -23,6 +23,10 @@ const FieldSchema = mongoose.Schema({
   createdOn: {
     type: Date,
     default: Date.now
+  },
+  gridView: {
+    type: String,
+    default: 'none'
   }
 });
 FieldSchema.plugin(mongoosePaginate);

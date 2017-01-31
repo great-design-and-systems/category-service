@@ -1,4 +1,5 @@
 import FieldModel from '../../entity/field';
+
 export default class CreateField {
     constructor(categoryId, field, callback) {
         FieldModel.create({
@@ -6,7 +7,8 @@ export default class CreateField {
             fieldType: field.fieldType,
             categoryId: categoryId,
             isFilter: field.isFilter,
-            isRequired: field.isRequired
+            isRequired: field.isRequired,
+            gridView: field.gridView
         }, (err, result) => {
             if (err) {
                 global.gdsLogger.logError(err);

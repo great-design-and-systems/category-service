@@ -73,17 +73,17 @@ export default class CategoryService {
         callback(err);
       } else {
         batch(data.fields).parallel()
-            .each((i, field, done) => {
-              new UpdateField(field._id, field, (err) => {
-                if (err) {
-                  global.gdsLogger.logError(err);
-                }
-                done();
-              });
-            })
-            .end(() => {
-              callback(undefined, category);
+          .each((i, field, done) => {
+            new UpdateField(field._id, field, (err) => {
+              if (err) {
+                global.gdsLogger.logError(err);
+              }
+              done();
             });
+          })
+          .end(() => {
+            callback(undefined, category);
+          });
       }
     });
   }
@@ -132,7 +132,18 @@ export default class CategoryService {
           if (err) {
             callback(err);
           } else {
-            callback(undefined, itemData);
+            new GetFieldsByCategoryId(categoryId, (err, fields) => {
+              if (err) {
+                callback(err);
+              } else {
+                let items = [];
+                items[0] = {
+                  item: itemData[0],
+                  fields: fields
+                }
+                callback(null, items);
+              }
+            });
           }
         });
       }
