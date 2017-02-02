@@ -37,22 +37,28 @@ export default class DynamicCategoryTable {
         });
     }
 
-    getCategoryData(categoryName, query, callback) {
+    getCategoryData(categoryName, query, paginate, callback) {
         let model = this.getModel(categoryName);
         let searchQuery = getQueryFromSearch(query);
         if (searchQuery) {
             query[searchQuery.field] = searchQuery.value;
         }
-        model.find(query, (err, result) => {
-            if (err) {
-                global.gdsLogger.logError(err);
-                callback({
-                    message: 'Failed getting ' + categoryName
-                });
-            } else {
-                callback(undefined, result);
-            }
+        model.count(query, (err, count) => {
+            model.find(query, (err, result) => {
+                if (err) {
+                    global.gdsLogger.logError(err);
+                    callback({
+                        message: 'Failed getting ' + categoryName
+                    });
+                } else {
+                    callback(undefined, {
+                        total: count,
+                        docs: result
+                    });
+                }
+            }).skip(paginate.offset).limit(paginate.limit);
         });
+
     }
 
     updateCategoryData(categoryName, categoryData, callback) {

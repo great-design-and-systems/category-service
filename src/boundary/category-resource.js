@@ -226,7 +226,7 @@ export default class CategoryResource {
     });
 
     app.post(API + 'get-item-category', (req, res) => {
-      dynamicService.getItemCategory(req.body, (err, result) => {
+      dynamicService.getItemCategory(req.body, new GDSDomainPaginateHelper(req), (err, result) => {
         if (err) {
           res.status(500).send(new GDSDomainDTO('ERROR_MESSAGE',
             err.message

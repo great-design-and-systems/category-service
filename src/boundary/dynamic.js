@@ -1,4 +1,5 @@
 import DynamicCategoryTable from '../control/dynamic/dynamic-category-table';
+
 export default class DynamicService {
     constructor() {
         this.dynamicCategoryTable = new DynamicCategoryTable();
@@ -8,8 +9,8 @@ export default class DynamicService {
         this.dynamicCategoryTable.createCategoryData(data.category, data.content, callback);
     }
 
-    getItemCategory(data, callback) {
-        this.dynamicCategoryTable.getCategoryData(data.category, data.query, callback);
+    getItemCategory(data, paginate, callback) {
+        this.dynamicCategoryTable.getCategoryData(data.category, data.query, paginate, callback);
     }
 
     updateItemCategory(data, callback) {
