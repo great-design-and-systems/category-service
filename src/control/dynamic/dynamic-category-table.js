@@ -1,4 +1,6 @@
+import lodash from 'lodash';
 import mongoose from 'mongoose';
+
 export default class DynamicCategoryTable {
     constructor() {
         this.establishedModels = {};
@@ -8,7 +10,7 @@ export default class DynamicCategoryTable {
         if (!(name in this.establishedModels)) {
             const Any = new mongoose.Schema(
                 {
-                    any: mongoose.Schema.Types.Mixed, 
+                    any: mongoose.Schema.Types.Mixed,
                     createdOn: {
                         type: Date,
                         default: Date.now
@@ -37,6 +39,10 @@ export default class DynamicCategoryTable {
 
     getCategoryData(categoryName, query, callback) {
         let model = this.getModel(categoryName);
+        let searchQuery = getQueryFromSearch(query);
+        if (searchQuery) {
+            query[searchQuery.field] = searchQuery.value;
+        }
         model.find(query, (err, result) => {
             if (err) {
                 global.gdsLogger.logError(err);
@@ -75,5 +81,16 @@ export default class DynamicCategoryTable {
                 callback();
             }
         });
+    }
+}
+
+function getQueryFromSearch(query) {
+    if (query && query.$search) {
+        let search = lodash.clone(query.$search);
+        lodash.unset(query, '$search');
+        return {
+            field: search.field,
+            value: new RegExp(search.value, 'i')
+        }
     }
 }
