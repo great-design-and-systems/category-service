@@ -3,3 +3,4 @@ dist
 system.log
 /.project
 .env
+npm-debug.log
