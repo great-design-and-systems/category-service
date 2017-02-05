@@ -44,19 +44,36 @@ export default class DynamicCategoryTable {
             query[searchQuery.field] = searchQuery.value;
         }
         model.count(query, (err, count) => {
-            model.find(query, (err, result) => {
-                if (err) {
-                    global.gdsLogger.logError(err);
-                    callback({
-                        message: 'Failed getting ' + categoryName
-                    });
-                } else {
-                    callback(undefined, {
-                        total: count,
-                        docs: result
-                    });
-                }
-            }).skip(paginate.offset).limit(paginate.limit);
+            if (paginate) {
+                model.find(query, (err, result) => {
+                    if (err) {
+                        global.gdsLogger.logError(err);
+                        callback({
+                            message: 'Failed getting ' + categoryName
+                        });
+                    } else {
+                        callback(undefined, {
+                            total: count,
+                            docs: result
+                        });
+                    }
+                }).skip(paginate.offset).limit(paginate.limit);
+            } else {
+                model.find(query, (err, result) => {
+                    if (err) {
+                        global.gdsLogger.logError(err);
+                        callback({
+                            message: 'Failed getting ' + categoryName
+                        });
+                    } else {
+                        callback(undefined, {
+                            total: count,
+                            docs: result
+                        });
+                    }
+                });
+            }
+
         });
 
     }

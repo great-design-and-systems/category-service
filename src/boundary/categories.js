@@ -128,7 +128,7 @@ export default class CategoryService {
           category: category.name, query: {
             itemId: itemId
           }
-        }, (err, itemData) => {
+        }, undefined, (err, itemData) => {
           if (err) {
             callback(err);
           } else {
@@ -138,7 +138,7 @@ export default class CategoryService {
               } else {
                 let items = [];
                 items[0] = {
-                  item: itemData[0],
+                  item: itemData.docs[0],
                   fields: fields
                 }
                 callback(null, items);
