@@ -44,11 +44,16 @@ export default class CategoryService {
   }
   getCategoryById(categoryId, callback) {
     new GetCategoryById(categoryId, (err, category) => {
-      if (err || !category) {
+      if (err || category == null) {
+        if (category == null) {
+          err = {
+            message: 'Category not found.'
+          }
+        }
         callback(err);
       } else {
-        new GetFieldsByCategoryId(categoryId, (err, fields) => {
-          if (err) {
+        new GetFieldsByCategoryId(categoryId, (errfields, fields) => {
+          if (errfields) {
             callback(err);
           } else {
             const result = {};
